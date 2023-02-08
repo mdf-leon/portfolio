@@ -1,17 +1,19 @@
 import express from "express";
+import { Server } from "node:http";
 import { Application } from "express";
 import path from "path";
 import fs from "fs";
-import cors from 'cors';
-import bodyParser from 'body-parser';
+import cors from "cors";
+import bodyParser from "body-parser";
 
 import dotenv from "dotenv";
+import connection from "../db";
 
 dotenv.config();
 
 export class App {
   public app: Application;
-  private server: any;
+  private server: Server;
 
   constructor() {
     this.app = express();
@@ -30,19 +32,21 @@ export class App {
     });
   }
 
-  public closeApp() {
-    this.server.close();
+  public async closeApp() {
+    await connection.destroy();
+    if (this.server.closeAllConnections) await this.server.closeAllConnections()
+    // process.exit()
   }
 
   public getAppServer() {
     return this.server;
   }
 
-  public executeApp() {
+  public async executeApp() {
     if (process.env.NODE_ENV !== "test") {
       this.server = this.app.listen(process.env.APP_PORT || 3333);
     } else {
-      this.server = this.app.listen(0);
+      this.server = await this.app.listen(0);
     }
   }
 }

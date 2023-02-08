@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/index.js",
-    "test": "jest",
-    "test:specific": "jest src/__tests__/$1.test.ts",
-    "test:watch": "jest --watch",
+    "test": "jest --forceExit",
+    "test:specific": "ver && jest src/__tests__/%npm_config_file%.test.ts --forceExit || jest src/__tests__/$npm_config_file.test.ts --forceExit",
+    "test:watch": "jest --watch --forceExit",
     "db:migrate:seed": "knex migrate:latest && knex seed:run",
     "dev2": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "dev": "nodemon --watch src --exec ts-node src/index.ts",

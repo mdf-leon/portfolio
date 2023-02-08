@@ -1,5 +1,4 @@
 import { App } from "../index";
-import knex from "knex";
 import connection from "../../db";
 
 describe("App database connection", () => {
@@ -9,7 +8,7 @@ describe("App database connection", () => {
     app = new App();
   });
 
-  afterAll(async () => {
+  afterAll(async () => { 
     await app.closeApp();
   });
 
