@@ -1,7 +1,7 @@
 import request from "supertest";
 
 import { App } from "../index";
-import User from "../models/User";
+import User from "../entities/User";
 
 describe("User router", () => {
   let app: App;
@@ -57,7 +57,7 @@ describe("User router", () => {
         .send(user);
 
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty("token");
+      expect(response.body).toHaveProperty("message");
     });
 
     it("should not log in an unregistered user", async () => {

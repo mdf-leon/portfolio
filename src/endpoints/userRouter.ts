@@ -2,16 +2,20 @@ import { Router, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import { compare, hash } from "bcrypt";
 import connection from "../../db";
-import User from "../models/User";
+import User from "../entities/User";
+import checkAuthentication from "../middleware/authMiddleware";
 
 const router = Router();
 const knexClient = connection;
 
+router.get("/protected", checkAuthentication, (req, res) => {
+  // The user is authenticated, the user information is stored in req.session.user
+  res.send({ status: "Access granted", user: req.session.user });
+});
+
 router.get("/status", async (req, res) => {
   try {
-    // console.log(knexClient.);
     await knexClient.raw("select 1+1 as result");
-
     res.status(200).send({ status: "Successfully connected to the database" });
   } catch (error) {
     res.status(500).send({ status: "Error connecting to the database", error });
@@ -63,8 +67,8 @@ router.post("/login", async (req: Request, res: Response) => {
         expiresIn: "1h",
       }
     );
-
-    res.status(200).json({ message: "User logged in", token });
+    req.session.token = token;
+    res.status(200).json({ message: "User logged in" });
   } catch (err) {
     res.status(500).json({ message: "Error logging in" });
   }
