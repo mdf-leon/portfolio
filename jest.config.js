@@ -9,7 +9,7 @@ module.exports = {
   //   "<rootDir>/tests/**/*.(test).{js,jsx,ts,tsx}",
   //   "<rootDir>/tests/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
   // ],
-  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+  "testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.tsx?$",
   "moduleFileExtensions": [
     "ts",
     "tsx",
